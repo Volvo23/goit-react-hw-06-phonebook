@@ -1,83 +1,15 @@
 import React, { Component } from "react";
 import ContactForm from "./contactForm/ContactForm";
+import { connect } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import ContactList from "./contactList/ContactList";
 import ContactFilter from "./contactFilter/ContactFilter";
 import { CSSTransition } from "react-transition-group";
 import s from "./PhoneBook.module.css";
-import Notification from "./notification/Notofication";
-import Insert from "./insert/Insert";
+// import Notification from "./notification/Notofication";
+// import Insert from "./insert/Insert";
 
 class PhoneBook extends Component {
-  // state = {
-  //   contacts: [],
-  //   filter: "",
-  //   newContact: null,
-  //   showAlert: false,
-  //   showEmpty: false,
-  // };
-
-  // componentDidMount() {
-  //   const persistedContacts = localStorage.getItem("contacts");
-  //   if (persistedContacts) {
-  //     this.setState({
-  //       contacts: JSON.parse(persistedContacts),
-  //     });
-  //   }
-  // }
-
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (prevState.contacts !== this.state.contacts) {
-  //     localStorage.setItem("contacts", JSON.stringify(this.state.contacts));
-  //   }
-  // }
-
-  // addContact = ({ name, number }) => {
-  //   const { contacts } = this.state;
-  //   const contact = {
-  //     id: uuidv4(),
-  //     name,
-  //     number,
-  //   };
-
-  //   if (contacts.find((el) => el.name.toLowerCase() === name.toLowerCase())) {
-  //     this.setState({ newContact: contact.name, showAlert: true });
-  //     setTimeout(
-  //       () => this.setState({ newContact: null, showAlert: false }),
-  //       2500
-  //     );
-  //     return;
-  //   }
-  //   if (!name.length || !number.length) {
-  //     this.setState({ showInsert: true });
-  //     setTimeout(() => this.setState({ showInsert: false }), 2500);
-  //     return;
-  //   }
-  //   this.setState((prevState) => {
-  //     return {
-  //       contacts: [...prevState.contacts, contact],
-  //     };
-  //   });
-  // };
-
-  // deleteContact = (e) => {
-  //   const id = e.target.dataset.id;
-  //   this.setState({
-  //     contacts: [...this.state.contacts.filter((contact) => contact.id !== id)],
-  //   });
-  // };
-
-  // onHandleFilter = (e) => {
-  //   this.setState({ filter: e.target.value });
-  // };
-
-  // getFiltredContacts = () => {
-  //   const { contacts, filter } = this.state;
-  //   return contacts.filter((contact) =>
-  //     contact.name.toLowerCase().includes(filter.toLowerCase())
-  //   );
-  // };
-
   render() {
     // const { newContact, showAlert, showInsert } = this.state;
     return (
@@ -87,31 +19,18 @@ class PhoneBook extends Component {
         </CSSTransition>
         <ContactForm />
 
-        <ContactFilter />
+        {this.props.contacts.length > 1 && <ContactFilter />}
 
         <ContactList />
-        {/* <CSSTransition
-          in={showInsert}
-          appear={true}
-          timeout={250}
-          classNames={s}
-          unmountOnExit
-        >
-          <Insert />
-        </CSSTransition> */}
-
-        {/* <CSSTransition
-          in={showAlert}
-          appear={true}
-          timeout={250}
-          classNames={s}
-          unmountOnExit
-        >
-          <Notification name={newContact} />
-        </CSSTransition> */}
       </div>
     );
   }
 }
 
-export default PhoneBook;
+const mapStateToProps = (state) => {
+  return {
+    contacts: state.contacts.contactList,
+  };
+};
+
+export default connect(mapStateToProps)(PhoneBook);

@@ -6,6 +6,10 @@ import contactsActions from "../../redux/tasks/contactsActions";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 const ContactList = ({ contacts, deleteContact }) => {
+  const onHandleDelete = (e) => {
+    const id = e.target.dataset.id;
+    deleteContact(id);
+  };
   return (
     <div>
       <h2>Contacts</h2>
@@ -20,7 +24,7 @@ const ContactList = ({ contacts, deleteContact }) => {
                   className={s.button}
                   type="button"
                   data-id={contact.id}
-                  onClick={deleteContact}
+                  onClick={onHandleDelete}
                 >
                   Delete
                 </button>
